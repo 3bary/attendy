@@ -1,6 +1,9 @@
+import 'package:attendy/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 
@@ -119,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
