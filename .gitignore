@@ -41,3 +41,39 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter/Dart/Pub related
+.packages
+
+# Build outputs
+build/
+android/app/build/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/.symlinks/
+ios/Pods/
+ios/Podfile.lock
+
+# IDE related
+.vscode/
+
+# macOS
+
+# Windows
+Thumbs.db
+
+# Linux
+
+# Android related
+*.keystore
+android/.gradle/
+android/.idea/
+android/local.properties
+
+# Xcode related
+ios/Runner.xcworkspace/
+ios/DerivedData/
+xcuserdata/
+
+/android/gradle/wrapper/gradle-wrapper.properties
