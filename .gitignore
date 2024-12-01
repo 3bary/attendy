@@ -77,4 +77,3 @@ ios/DerivedData/
 xcuserdata/
 
 /android/gradle/wrapper/gradle-wrapper.properties
-/android/build.gradle
