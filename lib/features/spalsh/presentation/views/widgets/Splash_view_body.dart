@@ -1,9 +1,7 @@
-
 import 'package:attendy/core/utils/app_router.dart';
 import 'package:attendy/features/spalsh/presentation/views/widgets/slidind_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../../core/utils/assets.dart';
 
 
@@ -35,6 +33,7 @@ class _SplashViewBodyState extends State<SplashViewBody> with SingleTickerProvid
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Image.asset(AssetsData.logo,width: 100,height: 100,),
        SlidingText(slidingAnimation: slidingAnimation)
 
       ],
@@ -43,7 +42,7 @@ class _SplashViewBodyState extends State<SplashViewBody> with SingleTickerProvid
   void initSlidingAnimation() {
     animationController=AnimationController(
         vsync: this,
-        duration:const Duration(seconds: 5));
+        duration:const Duration(seconds: 2));
     slidingAnimation =Tween<Offset>(begin:const Offset(0,2) ,end:const Offset(0,0) ).animate(animationController);
     animationController.forward();
   }

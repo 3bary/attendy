@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 class SlidingText extends StatelessWidget {
   const SlidingText({
     super.key,
@@ -15,9 +16,12 @@ class SlidingText extends StatelessWidget {
           return SlideTransition(
               position: slidingAnimation,
               child: const Text(
-                "Read Free Books",
+                "ATTENDY",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),));
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Pacifico'),));
 
         } );
   }
