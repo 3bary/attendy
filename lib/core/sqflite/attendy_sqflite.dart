@@ -3,7 +3,6 @@ import 'package:sqflite/sqflite.dart';
 
 class AttendySqflite {
   static Database? _attendySqflite;
-
   Future<Database?> get attendySqflite async =>
       _attendySqflite ??= await initSqflite();
 
@@ -99,6 +98,26 @@ CREATE TABLE week (
   deleteData(String sql) async {
     Database? db = await attendySqflite;
     int response = await db!.rawDelete(sql);
+    return response;
+  }
+
+  // الدالة لإضافة سكشن جديد
+  Future<int> insertSection(String name, String description) async {
+    Database? db = await attendySqflite;
+    int response = await db!.insert(
+      'section',
+      {
+        'name': name,
+        'description': description,
+      },
+    );
+    return response;
+  }
+
+  // الدالة لاسترجاع جميع السكاشن
+  Future<List<Map<String, dynamic>>> getSections() async {
+    Database? db = await attendySqflite;
+    List<Map<String, dynamic>> response = await db!.query('section');
     return response;
   }
 }
