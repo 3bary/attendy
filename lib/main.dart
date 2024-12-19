@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'constants.dart';
+import 'core/sqflite/attendy_sqflite.dart';
 import 'core/utils/app_router.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized() ;
   Bloc.observer = SimpleBlocObserver();
+  AttendySqflite dbHelper = AttendySqflite(); // إنشاء كائن من الكلاس
+  await dbHelper.attendySqflite;
   runApp(const MyApp());
 }
 
