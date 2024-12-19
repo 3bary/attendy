@@ -3,6 +3,7 @@ import 'package:attendy/features/spalsh/presentation/views/widgets/slidind_text.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../../core/utils/assets.dart';
+import 'package:attendy/constants.dart';
 
 
 class SplashViewBody extends StatefulWidget {
@@ -20,6 +21,7 @@ class _SplashViewBodyState extends State<SplashViewBody> with SingleTickerProvid
     super.initState();
     initSlidingAnimation();
    navigateToHome();
+
   }
 
   @override
@@ -42,12 +44,12 @@ class _SplashViewBodyState extends State<SplashViewBody> with SingleTickerProvid
   void initSlidingAnimation() {
     animationController=AnimationController(
         vsync: this,
-        duration:const Duration(seconds: 2));
+        duration: kTransitionDuration);
     slidingAnimation =Tween<Offset>(begin:const Offset(0,2) ,end:const Offset(0,0) ).animate(animationController);
     animationController.forward();
   }
   void navigateToHome() {
-    Future.delayed(const Duration(seconds: 2),(){
+    Future.delayed( Duration(seconds: 3),(){
       GoRouter.of(context).push(AppRouter.kHomeView);
 
 
