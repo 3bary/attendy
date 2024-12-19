@@ -1,0 +1,38 @@
+import 'package:attendy/core/sqflite/attendy_sqflite.dart';
+import 'package:flutter/material.dart';
+
+class SqfliteTesting extends StatefulWidget {
+  const SqfliteTesting({super.key});
+
+  @override
+  State<SqfliteTesting> createState() => _SqfliteTestingState();
+}
+
+class _SqfliteTestingState extends State<SqfliteTesting> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextButton(
+                onPressed: () async {
+                  var x = await AttendySqflite().insertData('''
+            
+        ''');
+                  print(x);
+                },
+                child: const Text("Insert")),
+            TextButton(
+                onPressed: () async {
+                  var x = await AttendySqflite().readData('''
+          SELECT * FROM student;
+          ''');
+                  print(x);
+                },
+                child: const Text("Read")),
+          ]),
+    );
+  }
+}

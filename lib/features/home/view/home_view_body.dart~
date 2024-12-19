@@ -8,6 +8,7 @@ class HomeViewBody extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextButton(onPressed: () {}, child: const Text("Insert")),
           TextButton(onPressed: () {}, child: const Text("Read")),
