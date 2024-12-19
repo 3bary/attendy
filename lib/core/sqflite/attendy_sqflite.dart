@@ -101,4 +101,24 @@ CREATE TABLE week (
     int response = await db!.rawDelete(sql);
     return response;
   }
+
+  // الدالة لإضافة سكشن جديد
+  Future<int> insertSection(String name, String description) async {
+    Database? db = await attendySqflite;
+    int response = await db!.insert(
+      'section',
+      {
+        'name': name,
+        'description': description,
+      },
+    );
+    return response;
+  }
+
+  // الدالة لاسترجاع جميع السكاشن
+  Future<List<Map<String, dynamic>>> getSections() async {
+    Database? db = await attendySqflite;
+    List<Map<String, dynamic>> response = await db!.query('section');
+    return response;
+  }
 }

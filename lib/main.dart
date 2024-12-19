@@ -1,10 +1,12 @@
 import 'package:attendy/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'core/utils/app_router.dart';
+import 'core/utils/sqf_db.dart';
 
 void main() {
+
+
   Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
