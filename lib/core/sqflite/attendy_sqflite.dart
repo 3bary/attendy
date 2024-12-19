@@ -3,7 +3,6 @@ import 'package:sqflite/sqflite.dart';
 
 class AttendySqflite {
   static Database? _attendySqflite;
-
   Future<Database?> get attendySqflite async =>
       _attendySqflite ??= await initSqflite();
 
