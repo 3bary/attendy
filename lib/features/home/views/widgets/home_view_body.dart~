@@ -47,7 +47,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                       Icons.arrow_forward,
                     ),
                     onPressed: () {
-                      GoRouter.of(context).push(AppRouter.kWeekView,
+                      GoRouter.of(context).push(AppRouter.kHomeView,
                           extra: section['section_id']);
                     },
                   ),

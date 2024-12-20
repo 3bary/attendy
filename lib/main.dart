@@ -11,8 +11,6 @@ import 'core/utils/app_router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
-  AttendySqflite dbHelper = AttendySqflite(); // إنشاء كائن من الكلاس
-  await dbHelper.attendySqflite;
   runApp(const MyApp());
 }
 

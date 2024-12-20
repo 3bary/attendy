@@ -6,9 +6,13 @@ import '../../logic/week_cubit/week_state.dart';
 
 class WeekViewBody extends StatefulWidget {
   final int sectionId;
+
   // ID of the section to fetch weeks for
 
-  const WeekViewBody({super.key, required this.sectionId, });
+  const WeekViewBody({
+    super.key,
+    required this.sectionId,
+  });
 
   @override
   State<WeekViewBody> createState() => _WeekViewBodyState();
@@ -17,7 +21,9 @@ class WeekViewBody extends StatefulWidget {
 class _WeekViewBodyState extends State<WeekViewBody> {
   @override
   void initState() {
-    context.read<WeekCubit>().fetchWeeks(widget.sectionId); // Fetch weeks for the section
+    context
+        .read<WeekCubit>()
+        .fetchWeeks(widget.sectionId); // Fetch weeks for the section
     super.initState();
   }
 
@@ -32,8 +38,7 @@ class _WeekViewBodyState extends State<WeekViewBody> {
             itemCount: state.weeks.length,
             itemBuilder: (context, index) {
               final week = state.weeks[index]; // Map<String, dynamic>
-              final weekNumber = week['weekNumber'] ?? 'Unknown Week';
-              final description = week['description'] ?? 'No Description';
+              final weekNumber = week['week_number'] ?? 'Unknown Week';
 
               return Card(
                 child: ListTile(
@@ -44,7 +49,6 @@ class _WeekViewBodyState extends State<WeekViewBody> {
                     },
                   ),
                   title: Text('Week $weekNumber'),
-                  subtitle: Text(description),
                   trailing: IconButton(
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {

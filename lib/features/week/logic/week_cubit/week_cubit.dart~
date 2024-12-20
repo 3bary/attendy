@@ -70,6 +70,7 @@ class WeekCubit extends Cubit<WeekState> {
     try {
       emit(WeekLoadingState());
       List<Map<String, dynamic>> weeks = await db.getWeeks(sectionId);
+      print(weeks);
       emit(WeekLoadedState(weeks));
     } catch (e) {
       emit(WeekErrorState('Failed to fetch weeks: ${e.toString()}'));

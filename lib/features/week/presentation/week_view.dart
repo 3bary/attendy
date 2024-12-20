@@ -7,28 +7,30 @@ import '../logic/week_cubit/week_cubit.dart';
 
 class WeekView extends StatelessWidget {
   final int sectionId;
+
   const WeekView({super.key, required this.sectionId});
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Weeks'),
         elevation: 0.7,
       ),
-      body: BlocProvider(
-          create: (context) => WeekCubit(AttendySqflite()),
-          child: const WeekViewBody(sectionId: 0,)),
+      body: WeekViewBody(
+        sectionId: sectionId,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              isScrollControlled: true,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0)
-              ),
-              context: context,
-              builder: (context) => AddWeekBottomSheet(sectionId: sectionId ,)
+            isScrollControlled: true,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0)),
+            context: context,
+            builder: (context) => AddWeekBottomSheet(
+              sectionId: sectionId,
+            ),
           );
         },
         child: const Icon(Icons.add),
