@@ -1,4 +1,5 @@
 
+import 'package:attendy/features/week/presentation/week_view.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/views/home_view.dart';
@@ -8,7 +9,7 @@ abstract class AppRouter {
   // example uncomment and use
 
    static const kHomeView = '/homeView';
-  // static const kBookDetailsView = '/bookDetailsView';
+   static const kWeekView = '/weekView';
   // static const kSearchView = '/searchView';
    static final router = GoRouter(
      routes: [
@@ -19,6 +20,11 @@ abstract class AppRouter {
        GoRoute(
          path: kHomeView,
          builder: (context, state) => const HomeView(),
+       ),
+       GoRoute(
+
+         path: kWeekView,
+         builder: (context, state) =>  WeekView(sectionId: state.extra! as int,),
        ),
      ],
   );
