@@ -12,3 +12,4 @@ key.properties
 **/*.keystore
 **/*.jks
 /gradle/wrapper/gradle-wrapper.properties
+/gradle.properties
