@@ -78,3 +78,4 @@ xcuserdata/
 
 /android/gradle/wrapper/gradle-wrapper.properties
 /pubspec.lock
+/android/gradle.properties
