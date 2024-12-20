@@ -120,4 +120,43 @@ CREATE TABLE week (
     List<Map<String, dynamic>> response = await db!.query('section');
     return response;
   }
+
+
+
+  // الدالة لإضافة أسبوع جديد
+  Future<int> insertWeek(int sectionId, int weekNumber) async {
+    Database? db = await attendySqflite;
+    try {
+      int response = await db!.insert(
+        'week',
+        {
+          'section_id': sectionId,
+          'week_number': weekNumber,
+        },
+        conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicate entries
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Error inserting week: $e');
+    }
+  }
+
+  // الدالة لاسترجاع جميع الأسابيع الخاصة بقسم معين
+  Future<List<Map<String, dynamic>>> getWeeks(int sectionId) async {
+    Database? db = await attendySqflite;
+    try {
+      List<Map<String, dynamic>> response = await db!.query(
+        'week',
+        where: 'section_id = ?',
+        whereArgs: [sectionId],
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Error fetching weeks: $e');
+    }
+  }
+
+
+
 }
+

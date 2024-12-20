@@ -1,6 +1,9 @@
 import 'package:attendy/features/home/logic/section_cubit/section_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/utils/app_router.dart';
 
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
@@ -41,9 +44,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     title: Text(name),
                     subtitle: Text(description),
                     trailing: IconButton(
-                      icon: const Icon(Icons.arrow_forward),
+                      icon: const Icon(Icons.arrow_forward,),
                       onPressed: () {
-                        // TODO: Implement go to section details
+                        context.pushNamed(AppRouter.kWeekView, extra: section);
                       },
                     ),
                   ),
