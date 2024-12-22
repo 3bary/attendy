@@ -38,7 +38,6 @@ class _WeekViewBodyState extends State<WeekViewBody> {
             itemCount: state.weeks.length,
             itemBuilder: (context, index) {
               final week = state.weeks[index]; // Map<String, dynamic>
-              final weekNumber = week['week_number'] ?? 'Unknown Week';
 
               return Card(
                 child: ListTile(
@@ -48,7 +47,7 @@ class _WeekViewBodyState extends State<WeekViewBody> {
                       // TODO: Implement edit week
                     },
                   ),
-                  title: Text('Week $weekNumber'),
+                  title: Text('Week ${week.weekNumber}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {

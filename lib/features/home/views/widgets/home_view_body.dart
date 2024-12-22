@@ -30,8 +30,6 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             itemCount: state.sections.length,
             itemBuilder: (context, index) {
               final section = state.sections[index]; // Map<String, dynamic>
-              final name = section['name'] ?? 'Unnamed Section';
-              final description = section['description'] ?? 'No Description';
               return Card(
                 child: ListTile(
                   leading: IconButton(
@@ -40,15 +38,15 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                       // TODO: Implement edit section
                     },
                   ),
-                  title: Text(name),
-                  subtitle: Text(description),
+                  title: Text(section.name),
+                  subtitle: Text(section.description),
                   trailing: IconButton(
                     icon: const Icon(
                       Icons.arrow_forward,
                     ),
                     onPressed: () {
-                      GoRouter.of(context).push(AppRouter.kWeekView,
-                          extra: section['section_id']);
+                      GoRouter.of(context)
+                          .push(AppRouter.kWeekView, extra: section.sectionId);
                     },
                   ),
                 ),

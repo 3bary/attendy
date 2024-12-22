@@ -1,8 +1,12 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../features/home/data/models/section.dart';
+import '../../features/week/data/models/week.dart';
+
 class AttendySqflite {
   static Database? _attendySqflite;
+
   Future<Database?> get attendySqflite async =>
       _attendySqflite ??= await initSqflite();
 
@@ -62,7 +66,6 @@ CREATE TABLE week (
 );
     ''');
 
-
     await database.execute('''
       CREATE TABLE attendance (
           attendance_id INTEGER PRIMARY KEY,
@@ -101,7 +104,6 @@ CREATE TABLE week (
     return response;
   }
 
-  // الدالة لإضافة سكشن جديد
   Future<int> insertSection(String name, String description) async {
     Database? db = await attendySqflite;
     int response = await db!.insert(
@@ -114,49 +116,32 @@ CREATE TABLE week (
     return response;
   }
 
-  // الدالة لاسترجاع جميع السكاشن
-  Future<List<Map<String, dynamic>>> getSections() async {
+  Future<List<Section>> getSections() async {
     Database? db = await attendySqflite;
-    List<Map<String, dynamic>> response = await db!.query('section');
+    List<Map<String, dynamic>> rows = await db!.query('section');
+    return rows.map((e) => Section.fromMap(e)).toList();
+  }
+
+  Future<int> insertWeek(int sectionId, int weekNumber) async {
+    Database? db = await attendySqflite;
+    int response = await db!.insert(
+      'week',
+      {
+        'section_id': sectionId,
+        'week_number': weekNumber,
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicate entries
+    );
     return response;
   }
 
-
-
-  // الدالة لإضافة أسبوع جديد
-  Future<int> insertWeek(int sectionId, int weekNumber) async {
+  Future<List<Week>> getWeeks(int sectionId) async {
     Database? db = await attendySqflite;
-    try {
-      int response = await db!.insert(
-        'week',
-        {
-          'section_id': sectionId,
-          'week_number': weekNumber,
-        },
-        conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicate entries
-      );
-      return response;
-    } catch (e) {
-      throw Exception('Error inserting week: $e');
-    }
+    List<Map<String, dynamic>> rows = await db!.query(
+      'week',
+      where: 'section_id = ?',
+      whereArgs: [sectionId],
+    );
+    return rows.map((e) => Week.fromMap(e)).toList();
   }
-
-  // الدالة لاسترجاع جميع الأسابيع الخاصة بقسم معين
-  Future<List<Map<String, dynamic>>> getWeeks(int sectionId) async {
-    Database? db = await attendySqflite;
-    try {
-      List<Map<String, dynamic>> response = await db!.query(
-        'week',
-        where: 'section_id = ?',
-        whereArgs: [sectionId],
-      );
-      return response;
-    } catch (e) {
-      throw Exception('Error fetching weeks: $e');
-    }
-  }
-
-
-
 }
-
