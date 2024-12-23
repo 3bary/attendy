@@ -7,15 +7,9 @@ class SectionInitial extends SectionState {}
 class SectionLoading extends SectionState {}
 
 class SectionLoaded extends SectionState {
-  final List<Map<String, dynamic>> sections;
+  final List<Section> sections;
 
   SectionLoaded(this.sections);
-}
-
-class SectionAdded extends SectionState {
-  final int sectionId;
-
-  SectionAdded(this.sectionId);
 }
 
 class SectionError extends SectionState {
