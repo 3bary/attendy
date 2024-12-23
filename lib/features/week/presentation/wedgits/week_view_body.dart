@@ -1,5 +1,7 @@
+import 'package:attendy/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../logic/week_cubit/week_cubit.dart';
 import '../../logic/week_cubit/week_state.dart';
@@ -41,17 +43,12 @@ class _WeekViewBodyState extends State<WeekViewBody> {
 
               return Card(
                 child: ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      // TODO: Implement edit week
-                    },
-                  ),
                   title: Text('Week ${week.weekNumber}'),
                   trailing: IconButton(
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
-                      // TODO: Implement go to week details
+                      // Navigate to week details view
+                      GoRouter.of(context).push(AppRouter.kWeekDetailsView);
                     },
                   ),
                 ),

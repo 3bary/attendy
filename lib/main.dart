@@ -1,5 +1,6 @@
 import 'package:attendy/features/home/logic/section_cubit/section_cubit.dart';
 import 'package:attendy/features/week/logic/week_cubit/week_cubit.dart';
+import 'package:attendy/features/week/logic/week_students_cubit/week_students_cubit.dart';
 import 'package:attendy/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'constants.dart';
 import 'core/sqflite/attendy_sqflite.dart';
 import 'core/utils/app_router.dart';
+import 'features/student/logic/student_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +24,16 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+            create: (context) =>StudentCubit(AttendySqflite())
+        ),
+        BlocProvider(
           create: (context) => SectionCubit(AttendySqflite()),
         ),
         BlocProvider(
           create: (context) => WeekCubit(AttendySqflite()),
+        ),
+        BlocProvider(
+          create: (context) => WeekStudentsCubit(AttendySqflite()),
         ),
       ],
       child: MaterialApp.router(

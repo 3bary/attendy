@@ -195,5 +195,21 @@ CREATE TABLE week (
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+  Future<int> insertStudent(String name, String level) async {
+    Database? db = await attendySqflite;
+    try {
+      // Insert student into the database
+      return await db!.insert(
+        'student',
+        {
+          'name': name,
+          'level': level,
+        },
+        conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicate records
+      );
+    } catch (e) {
+      throw Exception('Failed to insert student: $e');
+    }
+  }
 }
 
