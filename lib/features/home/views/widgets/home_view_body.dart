@@ -26,32 +26,39 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         if (state is SectionLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is SectionLoaded) {
-          return ListView.builder(
-            itemCount: state.sections.length,
-            itemBuilder: (context, index) {
-              final section = state.sections[index]; // Map<String, dynamic>
-              return Card(
-                child: ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      // TODO: Implement edit section
-                    },
-                  ),
-                  title: Text(section.name),
-                  subtitle: Text(section.description),
-                  trailing: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_forward,
+          return Column(
+            children: [
+              ListView.builder(
+                itemCount: state.sections.length,
+                itemBuilder: (context, index) {
+                  final section = state.sections[index]; // Map<String, dynamic>
+                  return Card(
+                    child: ListTile(
+                      leading: IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          // TODO: Implement edit section
+                        },
+                      ),
+                      title: Text(section.name),
+                      subtitle: Text(section.description),
+                      trailing: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onPressed: () {
+                          GoRouter.of(context)
+                              .push(AppRouter.kWeekView, extra: section.sectionId);
+                        },
+                      ),
                     ),
-                    onPressed: () {
-                      GoRouter.of(context)
-                          .push(AppRouter.kWeekView, extra: section.sectionId);
-                    },
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              )
+            ],
           );
         } else if (state is SectionError) {
           return Center(child: Text(state.message));
