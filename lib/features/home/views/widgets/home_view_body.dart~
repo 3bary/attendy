@@ -10,6 +10,7 @@ class HomeViewBody extends StatefulWidget {
 
   @override
   State<HomeViewBody> createState() => _HomeViewBodyState();
+
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
@@ -22,45 +23,42 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SectionCubit, SectionState>(
-      builder: (context, state) {
-        if (state is SectionLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is SectionLoaded) {
-          return ListView.builder(
-            itemCount: state.sections.length,
-            itemBuilder: (context, index) {
-              final section = state.sections[index]; // Map<String, dynamic>
-              final name = section['name'] ?? 'Unnamed Section';
-              final description = section['description'] ?? 'No Description';
-              return Card(
-                child: ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      // TODO: Implement edit section
-                    },
-                  ),
-                  title: Text(name),
-                  subtitle: Text(description),
-                  trailing: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_forward,
+        builder: (context, state) {
+          if (state is SectionLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SectionLoaded) {
+            return ListView.builder(
+              itemCount: state.sections.length,
+              itemBuilder: (context, index) {
+                final section = state.sections[index]; // Map<String, dynamic>
+                final name = section['name'] ?? 'Unnamed Section';
+                final description = section['description'] ?? 'No Description';
+                return Card(
+                  child: ListTile(
+                    leading: IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        // TODO: Implement edit section
+                      },
                     ),
-                    onPressed: () {
-                      GoRouter.of(context).push(AppRouter.kHomeView,
-                          extra: section['section_id']);
-                    },
+                    title: Text(name),
+                    subtitle: Text(description),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.arrow_forward,),
+                      onPressed: () {
+                        context.pushNamed(AppRouter.kWeekView, extra: section);
+                      },
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        } else if (state is SectionError) {
-          return Center(child: Text(state.message));
-        } else {
-          return const Center(child: Text('No sections available.'));
-        }
-      },
-    );
+                );
+              },
+            );
+          } else if (state is SectionError) {
+            return Center(child: Text(state.message));
+          } else {
+            return const Center(child: Text('No sections available.'));
+          }
+        },
+      );
   }
 }
