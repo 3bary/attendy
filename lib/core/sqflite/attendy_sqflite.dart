@@ -143,5 +143,73 @@ CREATE TABLE week (
       whereArgs: [sectionId],
     );
     return rows.map((e) => Week.fromMap(e)).toList();
+
+  }
+
+  // Fetch students with their attendance status for a specific week
+  Future<List<Map<String, dynamic>>> getWeekStudents(int weekId) async {
+    Database? db = await attendySqflite;
+    return await db!.rawQuery('''
+      SELECT 
+        student.student_id, 
+        student.name, 
+        attendance.status
+      FROM 
+        student
+      INNER JOIN 
+        enrollment 
+      ON 
+        student.student_id = enrollment.student_id
+      LEFT JOIN 
+        attendance 
+      ON 
+        enrollment.enrollment_id = attendance.enrollment_id AND attendance.week_id = ?
+    ''', [weekId]);
+  }
+
+  // Update a student's attendance status
+  Future<void> updateAttendanceStatus(
+      int weekId, int studentId, String status) async {
+    Database? db = await attendySqflite;
+
+    // Get the enrollment ID for the student
+    final enrollment = await db!.query(
+      'enrollment',
+      where: 'student_id = ?',
+      whereArgs: [studentId],
+      limit: 1,
+    );
+    if (enrollment.isEmpty) {
+      throw Exception('Student not enrolled in any section.');
+    }
+    final enrollmentId = enrollment.first['enrollment_id'];
+
+    // Upsert attendance
+    await db.insert(
+      'attendance',
+      {
+        'enrollment_id': enrollmentId,
+        'week_id': weekId,
+        'status': status,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+  Future<int> insertStudent(String name, String level) async {
+    Database? db = await attendySqflite;
+    try {
+      // Insert student into the database
+      return await db!.insert(
+        'student',
+        {
+          'name': name,
+          'level': level,
+        },
+        conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicate records
+      );
+    } catch (e) {
+      throw Exception('Failed to insert student: $e');
+    }
   }
 }
+

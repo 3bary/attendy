@@ -1,3 +1,5 @@
+import 'package:attendy/features/student/presentation/views/student_view.dart';
+import 'package:attendy/features/week/presentation/week_details_view.dart';
 import 'package:attendy/features/week/presentation/week_view.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,8 +11,8 @@ abstract class AppRouter {
 
   static const kHomeView = '/homeView';
   static const kWeekView = '/weekView';
-
-  // static const kSearchView = '/searchView';
+  static const kWeekDetailsView = '/weekDetailsView';
+  static const kStudentView = '/studentView';
   static final router = GoRouter(
     routes: [
       GoRoute(
@@ -26,6 +28,14 @@ abstract class AppRouter {
         builder: (context, state) => WeekView(
           sectionId: state.extra! as int,
         ),
+      ),
+      GoRoute(
+        path: kWeekDetailsView,
+        builder: (context, state) => const WeekDetailsView(),
+      ),
+      GoRoute(
+        path: kStudentView,
+        builder: (context, state) => const StudentView(),
       ),
     ],
   );

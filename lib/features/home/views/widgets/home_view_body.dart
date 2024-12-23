@@ -27,8 +27,12 @@ class _HomeViewBodyState extends State<HomeViewBody> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is SectionLoaded) {
           return ListView.builder(
-            itemCount: state.sections.length,
+            padding: const EdgeInsets.all(8.0),
+            itemCount: state.sections.length + 1, // Add an empty space at the end
             itemBuilder: (context, index) {
+              if (index == state.sections.length) {
+                return const SizedBox(height: 100); // Empty space at the end
+              }
               final section = state.sections[index]; // Map<String, dynamic>
               return Card(
                 child: ListTile(
