@@ -47,7 +47,11 @@ class _WeekViewBodyState extends State<WeekViewBody> {
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
                       // Navigate to week details view
-                      GoRouter.of(context).push(AppRouter.kWeekDetailsView, extra: widget.sectionId);
+                      GoRouter.of(context).push(AppRouter.kWeekDetailsView,
+                          extra: {
+                            'weekId': state.weeks[index].weekId,
+                            'sectionId': widget.sectionId
+                          });
                     },
                   ),
                 ),

@@ -148,23 +148,30 @@ CREATE TABLE week (
   }
 
   // Fetch students with their attendance status for a specific week
-  Future<List<Map<String, dynamic>>> getSectionStudents(int sectionID) async {
+  Future<List<Map<String, dynamic>>> getSectionStudentsWithStatus(
+      int sectionID, int weekID) async {
     Database? db = await attendySqflite;
     try {
-      // Query to get students enrolled in the given section
-      final List<Map<String, dynamic>> students = await db!.rawQuery('''
-      SELECT s.student_id, s.name, s.level
-      FROM student s
-      JOIN enrollment e ON s.student_id = e.student_id
-      WHERE e.section_id = ?
-    ''', [sectionID]); // sectionID is passed as an argument
+      // Query to get students in the section along with their attendance status for the given week
+      final List<Map<String, dynamic>> studentsWithStatus = await db!.rawQuery('''
+    SELECT 
+      s.student_id, 
+      s.name, 
+      s.level, 
+      a.status -- Attendance status
+    FROM student s
+    JOIN enrollment e ON s.student_id = e.student_id
+    LEFT JOIN attendance a ON e.enrollment_id = a.enrollment_id AND a.week_id = ?
+    WHERE e.section_id = ?
+    ''', [weekID, sectionID]); // Pass weekID and sectionID as arguments
 
-      return students;
+      return studentsWithStatus;
     } catch (e) {
       // Handle any error during the database operation
-      throw Exception('Failed to fetch students for section $sectionID: $e');
+      throw Exception('Failed to fetch students with attendance status for section $sectionID and week $weekID: $e');
     }
   }
+
 
 
   // Update a student's attendance status
@@ -184,17 +191,50 @@ CREATE TABLE week (
     }
     final enrollmentId = enrollment.first['enrollment_id'];
 
-    // Upsert attendance
-    await db.insert(
+    // Check if the attendance record already exists
+    final existingAttendance = await db.query(
       'attendance',
-      {
-        'enrollment_id': enrollmentId,
-        'week_id': weekId,
-        'status': status,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: 'enrollment_id = ? AND week_id = ?',
+      whereArgs: [enrollmentId, weekId],
+      limit: 1,
     );
+
+    if (existingAttendance.isNotEmpty) {
+      // Update the existing attendance record
+      await db.update(
+        'attendance',
+        {'status': status},
+        where: 'enrollment_id = ? AND week_id = ?',
+        whereArgs: [enrollmentId, weekId],
+      );
+    } else {
+      // Insert a new attendance record
+      await db.insert(
+        'attendance',
+        {
+          'enrollment_id': enrollmentId,
+          'week_id': weekId,
+          'status': status,
+        },
+      );
+    }
+
+    // Debug: Check and print the updated status
+    final updatedAttendance = await db.query(
+      'attendance',
+      where: 'enrollment_id = ? AND week_id = ?',
+      whereArgs: [enrollmentId, weekId],
+      limit: 1,
+    );
+
+    if (updatedAttendance.isNotEmpty) {
+      print('Updated attendance record: $updatedAttendance');
+    } else {
+      print('Failed to update attendance.');
+    }
   }
+
+
 
   Future<int> insertStudent(String name, String level) async {
     Database? db = await attendySqflite;

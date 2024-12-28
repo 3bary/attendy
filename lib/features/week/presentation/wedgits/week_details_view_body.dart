@@ -1,12 +1,13 @@
-
-import 'package:attendy/features/week/logic/week_students_cubit/week_students_cubit.dart';
+import 'package:attendy/core/models/student.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class WeekDetailsViewBody extends StatefulWidget {
-  const WeekDetailsViewBody({super.key, required this.sectionId});
-  final int sectionId;
+import '../../logic/week_students_cubit/week_students_cubit.dart';
 
+class WeekDetailsViewBody extends StatefulWidget {
+  const WeekDetailsViewBody({super.key, required this.weekId, required this.sectionId});
+  final int weekId;
+  final int sectionId;
   @override
   State<WeekDetailsViewBody> createState() => _WeekDetailsViewBodyState();
 }
@@ -14,79 +15,82 @@ class WeekDetailsViewBody extends StatefulWidget {
 class _WeekDetailsViewBodyState extends State<WeekDetailsViewBody> {
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    context.read<WeekStudentsCubit>().fetchSectionStudents(widget.sectionId);
+    context.read<WeekStudentsCubit>().fetchWeekStudents(widget.sectionId,widget.weekId);
   }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WeekStudentsCubit, WeekStudentsState>(
       builder: (context, state) {
-        if (state is WeekLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is WeekStudentsLoaded) {
+        if (state is WeekStudentsLoaded) {
           return ListView.builder(
             itemCount: state.students.length,
             itemBuilder: (context, index) {
               final student = state.students[index];
-              WeekStudentStatus weekStudentStatus =  WeekStudentStatus.Absent;
               return ListTile(
-                title: Text(student.name),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Radio<WeekStudentStatus>(
-                      value: weekStudentStatus,
-                      groupValue: weekStudentStatus,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-
-                          weekStudentStatus = WeekStudentStatus.Absent;
-                        });
-                        context.read<WeekStudentsCubit>().updateStudentStatus(
-                          state.weekId,
-                          student.id,
-                          value!,
-                        );
-                      },
-                    ),
-                    Radio<WeekStudentStatus>(
-                      value: WeekStudentStatus.Present,
-                      groupValue: weekStudentStatus,
-                      onChanged: (value) {
-                        setState(() {
-                          weekStudentStatus = value!;
-                        });
-                        context.read<WeekStudentsCubit>().updateStudentStatus(
-                          state.weekId,
-                          student.id,
-                          value!,
-                        );
-                      },
-                    ),
-                    Radio<WeekStudentStatus>(
-                      value: WeekStudentStatus.Late,
-                      groupValue: weekStudentStatus,
-                      onChanged: (value) {
-                        setState(() {
-                          weekStudentStatus = value!;
-                        });
-                        context.read<WeekStudentsCubit>().updateStudentStatus(
-                          state.weekId,
-                          student.id,
-                          value!,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
+                  title: Text(student.name),
+                  trailing: CustomSwitch(
+                    student: student,
+                    studentId: student.id,
+                    weekId: widget.weekId,
+                  ));
             },
           );
-        } else {
-          return const Center(child: Text('No Students available.'));
         }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+}
+
+class CustomSwitch extends StatefulWidget {
+  const CustomSwitch({
+    super.key,
+    required this.student,
+    required this.studentId,
+    required this.weekId,
+  });
+  final int studentId;
+  final int weekId;
+  final Student student;
+
+  @override
+  State<CustomSwitch> createState() => _CustomSwitchState();
+}
+
+class _CustomSwitchState extends State<CustomSwitch> {
+  late bool isPresent;
+  @override
+  initState() {
+    super.initState();
+    if(widget.student.status == 'Absent'){
+      isPresent = false;
+    }else{
+      isPresent = true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      value: isPresent,
+      onChanged: (value) {
+        if (isPresent) {
+          context.read<WeekStudentsCubit>().updateStudentStatus(
+                widget.weekId,
+                widget.studentId,
+                WeekStudentStatus.Absent,
+              );
+        } else {
+          context.read<WeekStudentsCubit>().updateStudentStatus(
+              widget.weekId,
+              widget.student.id,WeekStudentStatus.Present);
+        }
+        setState(() {
+          isPresent = !isPresent;
+        });
+
       },
     );
   }
