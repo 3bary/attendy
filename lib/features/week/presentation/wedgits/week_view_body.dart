@@ -40,7 +40,6 @@ class _WeekViewBodyState extends State<WeekViewBody> {
             itemCount: state.weeks.length,
             itemBuilder: (context, index) {
               final week = state.weeks[index]; // Map<String, dynamic>
-
               return Card(
                 child: ListTile(
                   title: Text('Week ${week.weekNumber}'),
@@ -48,7 +47,7 @@ class _WeekViewBodyState extends State<WeekViewBody> {
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
                       // Navigate to week details view
-                      GoRouter.of(context).push(AppRouter.kWeekDetailsView);
+                      GoRouter.of(context).push(AppRouter.kWeekDetailsView, extra: widget.sectionId);
                     },
                   ),
                 ),

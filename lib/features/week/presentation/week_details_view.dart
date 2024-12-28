@@ -2,15 +2,15 @@ import 'package:attendy/features/week/presentation/wedgits/week_details_view_bod
 import 'package:flutter/material.dart';
 
 class WeekDetailsView extends StatelessWidget {
-  const WeekDetailsView({super.key});
-
+  const WeekDetailsView({super.key, required this.sectionId});
+  final int sectionId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Week Details'),
       ),
-      body: const WeekDetailsViewBody(),
+      body:  WeekDetailsViewBody(sectionId: sectionId,),
     );
   }
 }

@@ -17,3 +17,8 @@ class SectionError extends SectionState {
 
   SectionError(this.message);
 }
+
+class SectionStudentsAssignedSuccess extends SectionState {}
+
+class StudentSearchLoading extends SectionState {}
+

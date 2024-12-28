@@ -39,7 +39,9 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   leading: IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
-                      // TODO: Implement edit section
+                      GoRouter.of(context).push(
+                          AppRouter.kSectionDetailsView,
+                          extra: {'sectionId': section.sectionId, 'sectionName': section.name});
                     },
                   ),
                   title: Text(section.name),
