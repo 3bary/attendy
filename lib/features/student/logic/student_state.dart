@@ -13,3 +13,13 @@ class StudentAddedFailure extends StudentState {
 
   StudentAddedFailure(this.message);
 }
+class StudentLoaded extends StudentState {
+  final List<Student> students;
+
+  StudentLoaded(this.students);
+}
+class StudentSearchFailure extends StudentState {
+  final String message;
+
+  StudentSearchFailure(this.message);
+}

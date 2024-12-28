@@ -32,4 +32,19 @@ class SectionCubit extends Cubit<SectionState> {
       emit(SectionError('Failed to fetch sections: ${e.toString()}'));
     }
   }
+
+  void assignStudentsToSection(int sectionId, List<int> studentIds) async {
+    try {
+      emit(SectionLoading());
+      for (final studentId in studentIds) {
+        await db.insertEnrollment(studentId, sectionId); // Insert into enrollment
+      }
+      emit(SectionStudentsAssignedSuccess());
+      emit(SectionLoaded(sections));
+    } catch (e) {
+      emit(SectionError('Failed to assign students: $e'));
+    }
+  }
+
+
 }

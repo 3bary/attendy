@@ -8,15 +8,16 @@ enum WeekStudentStatus { Absent, Present, Late }
 
 class WeekStudentsCubit extends Cubit<WeekStudentsState> {
   final AttendySqflite db;
+  List<Student> students = [];
 
   WeekStudentsCubit(this.db) : super(WeekInitial());
 
-  Future<void> fetchWeekStudents(int weekId) async {
+  Future<void> fetchSectionStudents(int sectionId) async {
     try {
       emit(WeekLoading());
-      final rows = await db.getWeekStudents(weekId);
-      final students = rows.map((e) => Student.fromMap(e)).toList();
-      emit(WeekStudentsLoaded(weekId, students));
+      final rows = await db.getSectionStudents(sectionId);
+      students = rows.map((e) => Student.fromMap(e)).toList();
+      emit(WeekStudentsLoaded(sectionId, students));
     } catch (e) {
       emit(WeekStudentsError('Failed to fetch students: ${e.toString()}'));
     }
@@ -27,8 +28,6 @@ class WeekStudentsCubit extends Cubit<WeekStudentsState> {
     try {
       final statusString = status.toString().split('.').last; // Convert to string
       await db.updateAttendanceStatus(weekId, studentId, statusString);
-      // Re-fetch students to refresh the state
-      await fetchWeekStudents(weekId);
     } catch (e) {
       emit(WeekStudentsError('Failed to update attendance: ${e.toString()}'));
     }

@@ -1,3 +1,4 @@
+import 'package:attendy/core/models/student.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -147,25 +148,24 @@ CREATE TABLE week (
   }
 
   // Fetch students with their attendance status for a specific week
-  Future<List<Map<String, dynamic>>> getWeekStudents(int weekId) async {
+  Future<List<Map<String, dynamic>>> getSectionStudents(int sectionID) async {
     Database? db = await attendySqflite;
-    return await db!.rawQuery('''
-      SELECT 
-        student.student_id, 
-        student.name, 
-        attendance.status
-      FROM 
-        student
-      INNER JOIN 
-        enrollment 
-      ON 
-        student.student_id = enrollment.student_id
-      LEFT JOIN 
-        attendance 
-      ON 
-        enrollment.enrollment_id = attendance.enrollment_id AND attendance.week_id = ?
-    ''', [weekId]);
+    try {
+      // Query to get students enrolled in the given section
+      final List<Map<String, dynamic>> students = await db!.rawQuery('''
+      SELECT s.student_id, s.name, s.level
+      FROM student s
+      JOIN enrollment e ON s.student_id = e.student_id
+      WHERE e.section_id = ?
+    ''', [sectionID]); // sectionID is passed as an argument
+
+      return students;
+    } catch (e) {
+      // Handle any error during the database operation
+      throw Exception('Failed to fetch students for section $sectionID: $e');
+    }
   }
+
 
   // Update a student's attendance status
   Future<void> updateAttendanceStatus(
@@ -195,6 +195,7 @@ CREATE TABLE week (
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
   Future<int> insertStudent(String name, String level) async {
     Database? db = await attendySqflite;
     try {
@@ -211,5 +212,24 @@ CREATE TABLE week (
       throw Exception('Failed to insert student: $e');
     }
   }
+
+  Future<int> insertEnrollment(int studentId, int sectionId) async {
+    Database? db = await attendySqflite;
+    return await db!.insert(
+      'enrollment',
+      {
+        'student_id': studentId,
+        'section_id': sectionId,
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore, // Prevent duplicates
+    );
+  }
+
+  Future<List<Student>> getAllStudents() async {
+    Database? db = await attendySqflite;
+    final List<Map<String, dynamic>> rows = await db!.query('student');
+    return rows.map((map) => Student.fromMap(map)).toList();
+  }
+
 }
 
