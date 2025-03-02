@@ -1,0 +1,2 @@
+/mnt/nvme0n1p3/Flutter Projects/attendy/android/app/.cxx/RelWithDebInfo/5b4j6q35/x86_64/CMakeFiles/edit_cache.dir
+/mnt/nvme0n1p3/Flutter Projects/attendy/android/app/.cxx/RelWithDebInfo/5b4j6q35/x86_64/CMakeFiles/rebuild_cache.dir
