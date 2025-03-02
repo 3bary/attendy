@@ -1,16 +1,30 @@
-# attendy
+# Attendy - Student Absence Management
 
-A new Flutter project.
+Attendy is a **Flutter-based student attendance management app** designed for lecturers. It allows adding students globally and assigning them to specific sections while maintaining attendance records using a **local database (Sqflite)**.
 
-## Getting Started
+## 📸 Screenshots
 
-This project is a starting point for a Flutter application.
+![Screenshot 1](1.jpeg)
+![Screenshot 2](2.jpeg)
+![Screenshot 3](3.jpeg)
+![Screenshot 4](4.jpeg)
+![Screenshot 5](5.jpeg)
+![Screenshot 6](6.jpeg)
+![Screenshot 7](7.jpeg)
+![Screenshot 8](8.jpeg)
+![Screenshot 9](9.jpeg)
+![Screenshot 10](10.jpeg)
+![Screenshot 11](11.jpeg)
+![Screenshot 12](12.jpeg)
 
-A few resources to get you started if this is your first Flutter project:
+*(Replace the above paths with actual screenshot links after uploading them to your repository.)*
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🚀 Features
+- **Add Students Globally**: Register students into the system.
+- **Assign Students to Sections**: Manage student assignments per class/section.
+- **Attendance Tracking**: Mark student attendance efficiently.
+- **Local Database**: Uses **Sqflite** for offline data storage.
+- **State Management**: Implements **Cubit (flutter_bloc)** for managing app state.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+### ⭐ Don't forget to star the repo if you like it!
