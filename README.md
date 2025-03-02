@@ -17,7 +17,6 @@ Attendy is a **Flutter-based student attendance management app** designed for le
 ![Screenshot 11](11.jpeg)
 ![Screenshot 12](12.jpeg)
 
-*(Replace the above paths with actual screenshot links after uploading them to your repository.)*
 
 ## 🚀 Features
 - **Add Students Globally**: Register students into the system.
