@@ -26,17 +26,23 @@ abstract class AppRouter {
         builder: (context, state) => const HomeView(),
       ),
       GoRoute(
-        path: kWeekView,
-        builder: (context, state) => WeekView(
-          sectionId: state.extra! as int,
-        ),
-      ),
+          path: kWeekView,
+          builder: (context, state) {
+            return WeekView(
+              sectionId: state.extra! as int,
+            );
+          }),
       GoRoute(
-        path: kWeekDetailsView,
-        builder: (context, state) =>  WeekDetailsView(
-          sectionId: state.extra as int,
-        ),
-      ),
+          path: kWeekDetailsView,
+          builder: (context, state) {
+            final extras = state.extra as Map<String, dynamic>?;
+            final sectionId = extras!['sectionId'];
+            final weekId = extras['weekId'];
+            return WeekDetailsView(
+              weekId: weekId,
+              sectionID: sectionId,
+            );
+          }),
       GoRoute(
         path: kStudentView,
         builder: (context, state) => const StudentView(),
